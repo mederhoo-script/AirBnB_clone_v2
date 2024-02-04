@@ -14,7 +14,7 @@ echo "<html>
   <body>
     Holberton School
   </body>
-</html>" | sudo tee /data/web_static/releases/test/index.html
+</html>" > /data/web_static/releases/test/index.html
 
 # Create symbolic link and give ownership of /data/ to ubuntu user and group
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
@@ -35,7 +35,7 @@ printf %s "server {
     }
 
     location /redirect_me {
-        return 301 http://cuberule.com/;
+        return 301 https://sites.google.com/view/mederhoo-portfolio/home;
     }
 
     error_page 404 /404.html;
@@ -43,6 +43,6 @@ printf %s "server {
       root /var/www/html;
       internal;
     }
-}" | sudo tee /etc/nginx/sites-available/default
+}" > /etc/nginx/sites-available/default
 # Restart Nginx to apply changes
 sudo service nginx restart
