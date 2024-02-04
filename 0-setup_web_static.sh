@@ -1,27 +1,16 @@
 #!/usr/bin/env bash
-# Install Nginx if not already installed
-sudo apt-get update
-sudo apt-get -y install nginx
+# Sets up script that sets up your web servers for the deployment of web_static. It must:
+apt-get update
+apt-get install -y nginx
 
-# Create necessary directories if they don't exist
-sudo mkdir -p /data/web_static/releases/test
-sudo mkdir -p /data/web_static/shared
+mkdir -p /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/
+echo "Holberton School" > /data/web_static/releases/test/index.html
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-# Create a fake HTML file for testing
-echo "<html>
-  <head>
-  </head>
-  <body>
-    Holberton School
-  </body>
-</html>" > /data/web_static/releases/test/index.html
+chown -R ubuntu /data/
+chgrp -R ubuntu /data/
 
-# Create symbolic link and give ownership of /data/ to ubuntu user and group
-sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
-sudo chown -R ubuntu /data/
-sudo chgrp -R ubuntu /data/
-
-# Update Nginx configuration to serve content of /data/web_static/current/ to hbnb_static
 printf %s "server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -44,5 +33,5 @@ printf %s "server {
       internal;
     }
 }" > /etc/nginx/sites-available/default
-# Restart Nginx to apply changes
-sudo service nginx restart
+
+service nginx restart
